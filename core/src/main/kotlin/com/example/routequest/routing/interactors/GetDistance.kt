@@ -1,10 +1,11 @@
 package com.example.routequest.routing.interactors
 
-import com.example.routequest.routing.data.DistanceResolver
+import com.example.routequest.routing.data.DistanceResolverProvider
+import com.example.routequest.routing.domain.DistanceResolver
 import com.example.routequest.routing.domain.Distance
 import com.example.routequest.routing.domain.Route
 
-class GetDistance(private val resolver: DistanceResolver) {
+class GetDistance(private val provider: DistanceResolverProvider) {
     suspend fun execute(route: Route): Distance =
-        resolver.resolve(route)
+        provider.provide(route)()
 }

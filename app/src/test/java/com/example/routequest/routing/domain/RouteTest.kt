@@ -10,7 +10,7 @@ class RouteTest {
     fun fold_on_start_apply_accumulator_one_time() {
         val init = 42.0
         val start = Route.Start(Coordinates(.1,.0))
-        val accumulator: suspend (Double, Route) -> Double = { acc, cur ->
+        val accumulator: (Double, Route) -> Double = { acc, cur ->
             acc * cur.coordinates.longitude
         }
         runBlocking {
@@ -25,7 +25,7 @@ class RouteTest {
         val init = 42.0
         val start = Route.Start(Coordinates(.1,.0))
         val next = Route.Next(start, Coordinates(.2,.0))
-        val accumulator: suspend (Double, Route) -> Double = { acc, cur ->
+        val accumulator: (Double, Route) -> Double = { acc, cur ->
             acc * cur.coordinates.longitude
         }
         runBlocking {

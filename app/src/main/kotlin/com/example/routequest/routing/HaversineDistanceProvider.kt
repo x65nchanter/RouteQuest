@@ -1,9 +1,7 @@
 package com.example.routequest.routing
 
-import com.example.routequest.routing.data.DistanceResolver
-import com.example.routequest.routing.domain.Coordinates
-import com.example.routequest.routing.domain.Distance
-import com.example.routequest.routing.domain.Route
+import com.example.routequest.routing.data.DistanceResolverProvider
+import com.example.routequest.routing.domain.*
 import kotlin.math.atan2
 import kotlin.math.cos
 import kotlin.math.sin
@@ -13,9 +11,9 @@ import kotlin.math.sqrt
  * Наивный способ считать длину
  * Алтернатива Direction API
  */
-object HaversineDistanceResolver : DistanceResolver {
-    override suspend fun resolve(route: Route): Distance =
-        Distance.Meters(route.length(::haversine))
+object HaversineDistanceProvider : DistanceResolverProvider {
+    override fun provide(route: Route): DistanceResolver =
+        DistanceResolver { Distance.Meters(route.length(::haversine)) }
 
     /*
      *  Допустим что длину маршрута можно вычесли суммированием дистанции между его координатами.

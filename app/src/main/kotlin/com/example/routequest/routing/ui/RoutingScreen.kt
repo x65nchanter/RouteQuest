@@ -14,9 +14,7 @@ import androidx.lifecycle.LifecycleEventObserver
 import com.airbnb.mvrx.compose.collectAsState
 import com.airbnb.mvrx.compose.mavericksViewModel
 import com.example.routequest.R
-import com.example.routequest.routing.domain.Distance
-import com.example.routequest.routing.domain.Route
-import com.example.routequest.routing.domain.foreach
+import com.example.routequest.routing.domain.*
 import com.example.routequest.ui.states.ErrorState
 import com.example.routequest.ui.states.LoadingState
 import com.example.routequest.ui.states.OfflineState
@@ -58,7 +56,7 @@ fun RouteMap(route: Route?, distance: Distance?) {
                 val map = googleMap.awaitMap()
                 map.uiSettings.isZoomControlsEnabled = true
                 if (route != null) {
-                    val pickUp = route.fold(route) { _, next -> next }.let { start ->
+                    val pickUp = route.start().let { start ->
                         LatLng(start.coordinates.latitude, start.coordinates.longitude)
                     }
                     val destination = LatLng(
@@ -82,7 +80,7 @@ fun RouteMap(route: Route?, distance: Distance?) {
                         ?.showInfoWindow()
 
                     val polylineRoute = PolylineOptions().apply {
-                        route.foreach { current ->
+                        for(current in route.iterator()) {
                             add(
                                 LatLng(
                                     current.coordinates.latitude,
