@@ -5,8 +5,7 @@ import com.cocoahero.android.geojson.GeoJSON
 import com.cocoahero.android.geojson.LineString
 import com.example.routequest.di.AssistedViewModelFactory
 import com.example.routequest.di.ViewModelKey
-import com.example.routequest.routing.data.DistanceResolverProvider
-import com.example.routequest.routing.domain.DistanceResolver
+import com.example.routequest.routing.data.DistanceResolver
 import com.example.routequest.routing.data.RouteRepository
 import com.example.routequest.routing.domain.Coordinates
 import com.example.routequest.routing.domain.Route
@@ -32,17 +31,17 @@ object RoutingModule {
     @Provides
     fun routingInteractor(
         routeRepository: RouteRepository,
-        distanceProvider: DistanceResolverProvider
+        distanceResolver: DistanceResolver
     ): Interactor =
-        Interactor(GetRoute(routeRepository), GetDistance(distanceProvider))
+        Interactor(GetRoute(routeRepository), GetDistance(distanceResolver))
 
     @Provides
     fun routeRepository(): RouteRepository =
         RouteRepositoryStub
 
     @Provides
-    fun distanceProvider(): DistanceResolverProvider =
-        HaversineDistanceProvider
+    fun distanceProvider(): DistanceResolver =
+        HaversineDistanceResolver
 }
 
 /*

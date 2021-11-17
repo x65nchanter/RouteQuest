@@ -8,7 +8,7 @@ import org.junit.Assert.*
 
 import org.junit.Test
 
-class HaversineDistanceProviderTest {
+class HaversineDistanceResolverTest {
     @Test
     fun distance_between_moscow_and_volgograd() {
         val maxDelta = 250.0
@@ -18,7 +18,7 @@ class HaversineDistanceProviderTest {
         val route = Route.Next(Route.Start(moscow), volgograd)
         runBlocking {
             val distanceKilometer =
-                (HaversineDistanceProvider.provide(route)() as Distance.Meters).distance / 1000.0
+                (HaversineDistanceResolver.resolve(route)() as Distance.Meters).distance / 1000.0
             assertEquals(moscowVolgogradDistanceKilometer, distanceKilometer, maxDelta)
         }
     }
@@ -32,7 +32,7 @@ class HaversineDistanceProviderTest {
         val route = Route.Next(Route.Start(volgograd), petersburg)
         runBlocking {
             val distanceKilometer =
-                (HaversineDistanceProvider.provide(route)() as Distance.Meters).distance / 1000.0
+                (HaversineDistanceResolver.resolve(route)() as Distance.Meters).distance / 1000.0
             assertEquals(volgogradPetersburgDistanceKilometer, distanceKilometer, maxDelta)
         }
     }
@@ -47,7 +47,7 @@ class HaversineDistanceProviderTest {
         val route = Route.Next(Route.Next(Route.Start(moscow), volgograd), petersburg)
         runBlocking {
             val distanceKilometer =
-                (HaversineDistanceProvider.provide(route)() as Distance.Meters).distance / 1000.0
+                (HaversineDistanceResolver.resolve(route)() as Distance.Meters).distance / 1000.0
             assertEquals(routeLengthKilometer, distanceKilometer, maxDelta)
         }
     }
